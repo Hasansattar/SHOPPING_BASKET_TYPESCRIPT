@@ -1,25 +1,37 @@
 import React from 'react';
-import logo from './logo.svg';
+import './hover-min.css'
 import './App.css';
+// components
+import ProductDis from './components/product/index'
+import Cart from './components/cart/index'
+import { ProductItem } from './store/state'
+// router 
+import { BrowserRouter as Router, Link, Route, Routes } from 'react-router-dom'
+
+import { useSelector } from 'react-redux'
+
 
 function App() {
+  const products = useSelector((state: ProductItem[]) => state)
+  let totalQ = products.filter(product => product.added).length
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className='main'>
+        <div className='bar'>
+          <span className='logo'>online shoe Store</span>
+          <Link to='/'>
+            <span className='sp-one'>Products</span>
+          </Link>
+          <Link to='/cart'>
+            <span className='sp-one'>Cart({totalQ})</span>
+          </Link>
+        </div>
+        <Routes>
+          <Route path='/' element={<ProductDis />} />
+          <Route path='/cart' element={<Cart />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
